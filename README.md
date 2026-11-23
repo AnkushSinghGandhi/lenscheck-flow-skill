@@ -51,6 +51,10 @@ git clone https://github.com/AnkushSinghGandhi/lenscheck-flow-skill ~/.claude/sk
 
 ## Use
 
+On the first run `/flow` asks for your backend repos, frontend repos and (optionally) the app folders to focus
+on, and saves them to `$FLOW_JOURNEYS/repos.yaml`; later runs just confirm them. Extra backend repos become
+cross-repo hops, frontend repos tell Claude the order of a multi-step feature, and app folders narrow the search.
+
 ```
 /flow list                    # catalog of every entrypoint and saved journey
 /flow lead upload             # one API, command or task

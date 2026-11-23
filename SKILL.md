@@ -16,10 +16,23 @@ APIs, in user order. Journeys are saved and reused; pages are cached.
 - `<repo>` = the repo folder name; open pages with `xdg-open` (Linux) or `open` (macOS)
 
 ## Steps
-0. Repo = the current git root unless the user names one. Add `--crossrepo <other repo>` only when the flow
-   writes tables another repo reads (sync jobs, deliveries, queues) and the user has that repo checked out;
-   skip it for single-repo CRUD.
-1. `/flow list` → `$LC <repo> --catalog --journeys <journeys dir> --html <pages dir>/` → open `<pages dir>/index.html`.
+0. **Setup — ask before the first trace.** If `<journeys dir>/repos.yaml` exists, show it and ask "same repos?";
+   otherwise ask in ONE message (all optional except one backend repo; default = the current git root):
+   - **Backend repos** — paths (`path@branch` allowed). The first is `<repo>`, where the entry or journey lives.
+   - **Frontend repos** — paths of the web / mobile apps that call these APIs.
+   - **App paths** — folders inside a backend repo to focus on (e.g. `apps/orders`), or "whole repo".
+
+   Save the answers to `<journeys dir>/repos.yaml` (`backend: [...]`, `frontend: [...]`, `apps: {<repo>: [...]}`).
+   How each answer is used:
+   - Other backend repos → `--crossrepo` (and a journey's `crossrepo:` key), only when the flow writes tables they
+     read, calls their routes or dispatches their tasks; skip them for single-repo CRUD.
+   - App paths are **never** passed as `<repo>` — lenscheck needs the whole repo to resolve models and imports.
+     Use them to filter the catalog, to prefer candidates whose location is under them before asking `--pick`,
+     and to limit what you read when drafting a journey.
+   - Frontend repos are not traced by lenscheck; read them for step order and for which API each screen calls
+     (step 4b), and cite them in the journey's `source:`.
+1. `/flow list` → `$LC <repo> --catalog --journeys <journeys dir> --html <pages dir>/` → open `<pages dir>/index.html`
+   (with app paths: also say which catalog groups match them).
 2. **Saved journey** whose file name or `title` matches the words → say up front that a fresh explanation is one
    `claude -p` call (~3–5 min, then cached) → `$LC <repo> --journey <file> --html <pages dir>/ --explain`
    → refresh the index (step 1, don't open it) → open the page.
@@ -29,7 +42,8 @@ APIs, in user order. Journeys are saved and reused; pages are cached.
 4. **Multi-step thing with no saved journey** ("creation", "wizard", "N steps", "setup", "onboarding") → draft one:
    a. `$LC <repo> --catalog --json <scratch>/catalog.json`; read the relevant app groups (summaries, writes).
    b. Find the order in code: step/progress helpers (`step_progress`, `steps = [`), "step N" in API docs/summaries,
-      URL grouping, the front-end wizard if its repo is available.
+      URL grouping, and the frontend repos: wizard/route order and the API calls each screen makes
+      (`fetch(`, `axios.`, API client modules).
    c. Map each step to the endpoints that WRITE the data that step's completion needs — read the code, never
       map from URL names alone. Use `Handler.method`; `Handler@file` if two definitions share a name.
    d. Write a DRAFT YAML (`name`, `title`, `source:` = the evidence with file:line, `steps`) and show it. **Wait for yes.**
