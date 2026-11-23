@@ -16,13 +16,18 @@ APIs, in user order. Journeys are saved and reused; pages are cached.
 - `<repo>` = the repo folder name; open pages with `xdg-open` (Linux) or `open` (macOS)
 
 ## Steps
-0. **Setup — ask before the first trace.** If `<journeys dir>/repos.yaml` exists, show it and ask "same repos?";
-   otherwise ask in ONE message (all optional except one backend repo; default = the current git root):
-   - **Backend repos** — paths (`path@branch` allowed). The first is `<repo>`, where the entry or journey lives.
-   - **Frontend repos** — paths of the web / mobile apps that call these APIs.
-   - **App paths** — folders inside a backend repo to focus on (e.g. `apps/orders`), or "whole repo".
+0. **Setup — before the first trace.**
+   - Run `$LC --help`. If it fails, stop and give the install line:
+     `pip install "git+https://github.com/AnkushSinghGandhi/lenscheck-semantic-reviewer@flow"`
+     (or set `LENSCHECK` to a checkout's `python3 <path>/cli.py`).
+   - `<project>` = the folder name of the current git root, or of the first repo the user names.
+     If `<journeys dir>/<project>/repos.yaml` exists, show it and ask "same repos?";
+     otherwise ask in ONE message (all optional except one backend repo; default = the current git root):
+     - **Backend repos** — paths (`path@branch` allowed). The first is `<repo>`, where the entry or journey lives.
+     - **Frontend repos** — paths of the web / mobile apps that call these APIs.
+     - **App paths** — folders inside a backend repo to focus on (e.g. `apps/orders`), or "whole repo".
 
-   Save the answers to `<journeys dir>/repos.yaml` (`backend: [...]`, `frontend: [...]`, `apps: {<repo>: [...]}`).
+   Save the answers to `<journeys dir>/<project>/repos.yaml` (`backend: [...]`, `frontend: [...]`, `apps: {<repo>: [...]}`).
    How each answer is used:
    - Other backend repos → `--crossrepo` (and a journey's `crossrepo:` key), only when the flow writes tables they
      read, calls their routes or dispatches their tasks; skip them for single-repo CRUD.

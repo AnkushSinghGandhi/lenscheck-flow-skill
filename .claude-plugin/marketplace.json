@@ -1,0 +1,15 @@
+{
+  "name": "lenscheck-flow-skill",
+  "description": "Claude Code plugins for lenscheck: semantic, data-flow-aware views of Python web apps.",
+  "owner": {
+    "name": "Ankush Singh Gandhi",
+    "url": "https://github.com/AnkushSinghGandhi"
+  },
+  "plugins": [
+    {
+      "name": "lenscheck-flow",
+      "source": "./",
+      "description": "End-to-end feature flow infographics for Django/Flask/FastAPI repos via lenscheck flow."
+    }
+  ]
+}

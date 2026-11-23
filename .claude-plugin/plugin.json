@@ -1,0 +1,10 @@
+{
+  "name": "lenscheck-flow",
+  "version": "1.0.0",
+  "description": "Explain how a feature works end to end in a Python web repo (Django/Flask/FastAPI) as an interactive infographic, using the lenscheck flow AST trace plus a grounded Claude explanation.",
+  "author": { "name": "Ankush Singh Gandhi", "url": "https://github.com/AnkushSinghGandhi" },
+  "homepage": "https://github.com/AnkushSinghGandhi/lenscheck-flow-skill",
+  "repository": "https://github.com/AnkushSinghGandhi/lenscheck-flow-skill",
+  "license": "MIT",
+  "keywords": ["django", "flask", "fastapi", "code-flow", "architecture", "lenscheck"]
+}
