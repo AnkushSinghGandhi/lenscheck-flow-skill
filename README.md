@@ -27,3 +27,39 @@
   </a>
 </p>
 
+
+# /flow — a Claude Code skill for `lenscheck flow`
+
+Ask Claude *"how does X work end to end?"* and get an interactive infographic of the feature in your
+Python web repo (Django / Flask / FastAPI): business stages, the tables each step reads and writes, branches,
+cross-repo hand-offs, and the source behind every line on click.
+
+**lenscheck finds, Claude explains, the page draws.** The trace is static and deterministic (AST, no LLM);
+Claude only writes the overview, and every line it writes must cite a traced step or it is marked unverified.
+
+## Install
+
+```bash
+# 1. the lenscheck CLI (flow commands live on the `flow` branch for now)
+pip install "git+https://github.com/AnkushSinghGandhi/lenscheck-semantic-reviewer@flow"
+
+# 2. the skill
+git clone https://github.com/AnkushSinghGandhi/lenscheck-flow-skill ~/.claude/skills/flow
+```
+
+`--explain` uses the `claude` CLI with your Claude Code login (no API key).
+
+## Use
+
+```
+/flow list                    # catalog of every entrypoint and saved journey
+/flow lead upload             # one API, command or task
+/flow campaign creation       # a multi-step feature: Claude drafts a journey YAML, you approve it
+```
+
+| env var | default | what |
+|---|---|---|
+| `LENSCHECK` | `lenscheck` | how to run the CLI, e.g. `python3 ~/src/lenscheck/cli.py` |
+| `FLOW_JOURNEYS` | `~/.lenscheck/journeys` | where approved journey YAMLs are saved |
+
+Pages go to `~/.cache/lenscheck/flows/<repo>/`. They embed your source code, so keep them out of git.
