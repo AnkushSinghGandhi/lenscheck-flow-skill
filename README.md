@@ -89,3 +89,12 @@ Pages go to `~/.cache/lenscheck/flows/<repo>/`. They embed your source code, so 
   It runs with every tool disabled, from an empty temp folder, so it cannot read anything else in your repo.
   The answer is cached; a flow is only re-sent when its code changes.
 - If your code may not leave your machine, skip `--explain`; the facts-only overview needs no network.
+
+## Evals
+
+`evals/` checks the skill's decisions (no lenscheck run needed): it triggers on plain "how does X work end to end"
+phrasing, asks for backend / frontend / app paths in one message, and never passes an app path as the repo.
+
+```bash
+claude plugin eval . --runs 2 --no-publish
+```
